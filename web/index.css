@@ -1,0 +1,12 @@
+text {
+	font-family: Helvetica, Arial, sans-serif;
+	fill: #a3a3a3;
+	font-size: 12px;
+}
+
+.domain, .tick line{
+	fill: none;
+	stroke: #a3a3a3;
+	stroke-width: 1;
+	shape-rendering: crispEdges;
+}
