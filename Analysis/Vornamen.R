@@ -66,13 +66,33 @@ ggplot(v3[v3$geschlecht == "gesamt",], aes(x=jahr, y=AnteilStart, color=factor(l
 
 v3$total <- v3$Anzahl <- v3$AnzahlStart <- NULL
 
-v3$Anteil <- round(v3$Anteil*100,1)
-v3$AnteilStart <- round(v3$AnteilStart*100,1)
+v3$Anteil <- round(v3$Anteil,3)
+v3$AnteilStart <- round(v3$AnteilStart,3)
 
 v3[v3$geschlecht == "weiblich", "geschlecht"] <- "f"
 v3[v3$geschlecht == "männlich", "geschlecht"] <- "m"
 v3[v3$geschlecht == "gesamt", "geschlecht"] <- "t"
 
-write.csv(v3, "vornamen.csv", row.names = FALSE)
+v3$Anteil <- NULL
 
+v31 <- v3[v3$geschlecht == "f",]
+v32 <- v3[v3$geschlecht == "m",]
+v33 <- v3[v3$geschlecht == "t",]
+
+v31$geschlecht <- v32$geschlecht <- v33$geschlecht <- NULL
+
+names(v31) <- c("year","char","f")
+names(v32) <- c("year","char","m")
+names(v33) <- c("year","char","t")
+
+# fix v31 / q / 2010
+
+v34 <- merge(v31,v32, by = c("year", "char"), all = TRUE)
+v34 <- merge(v33,v34, by = c("year", "char"), all = TRUE)
+v34[is.na(v34$f),"f"] <- 0
+
+
+write.csv(v34, "vornamen.csv", row.names = FALSE)
+
+vornamen2
 

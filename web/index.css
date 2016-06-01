@@ -1,7 +1,83 @@
-text {
+body {
 	font-family: Helvetica, Arial, sans-serif;
-	fill: #a3a3a3;
-	font-size: 12px;
+	background: #F7F2F7;
+	margin: 6px;
+}
+
+header {
+	position: absolute;
+	top: 16px;
+	font-size: 24px;
+	width: 288px;
+	font-weight: 700;
+	right: 0px;
+	color: #4d4d4d;
+}
+
+header span{
+	color: #B61489;
+}
+
+svg {
+	position: absolute;
+	top: 18px;
+	/*left: 6px;*/
+}
+
+#sidebar{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 294px;
+	margin-top: 78px;
+}
+
+.text{
+	padding: 6px 6px 0px 6px;
+	font-size: 16px;
+	/*font-weight: 700;*/
+	color: #4d4d4d;
+}
+
+#description span{
+	font-weight: 700;
+	color: #B61489;
+}
+
+#filter{
+	position: absolute;
+	top: 18px;
+	right: 300px;
+	font-size: 14px;
+	font-weight: 700;
+	color: #4d4d4d;
+	cursor: default;
+	z-index: 1;
+}
+
+#filter span{
+	padding-left: 6px;
+	cursor: pointer;
+}
+
+#filter span.selected{
+	color: #B61489;
+}
+/*#filter #female.selected{
+	color: #EE3E47;
+}
+#filter #male.selected{
+	color: #5B46F6;
+}*/
+
+
+text {
+	fill: #4d4d4d;
+	font-size: 14px;
+}
+
+.x.axis .tick:last-of-type text{
+	text-anchor: end !important;
 }
 
 .domain, .tick line{
@@ -9,4 +85,8 @@ text {
 	stroke: #a3a3a3;
 	stroke-width: 1;
 	shape-rendering: crispEdges;
+}
+
+.axis .domain{
+	display: none
 }
