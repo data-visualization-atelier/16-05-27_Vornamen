@@ -1,9 +1,11 @@
-document.addEventListener("DOMContentLoaded", function(event) {
-	init()
-})
+
+
+// d3.select(document).on("DOMContentLoaded", () => {
+// 	init()
+// })
 
 var init = () => {
-	d3.csv("vornamen.csv", function(d) {
+	d3.csv("vornamen.csv", (d) => {
 		return {
 			year: new Date(+d.year, 0, 1),
 			char: d.char,
@@ -158,8 +160,8 @@ var initChart = (data) => {
 		"x1": -1
 	})
 	xa.append("text")
-		.attr("text-anchor", "end") // this makes it easy to centre the text as the transform is applied to the anchor
-		.attr("transform", "translate(" + (width) + ",36)") // centre below axis
+		.attr("text-anchor", "end")
+		.attr("transform", "translate(" + (width) + ",36)")
 		.text("Year")
 
 	var ya = svg.append("g")
@@ -172,8 +174,8 @@ var initChart = (data) => {
 		.attr("y", -7)
 
 	ya.append("text")
-		.attr("text-anchor", "start") // this makes it easy to centre the text as the transform is applied to the anchor
-		.attr("transform", "translate(0,0)") // centre below axis
+		.attr("text-anchor", "start")
+		.attr("transform", "translate(0,0)")
 		.text("Names starting with given letter")
 }
 
@@ -198,26 +200,18 @@ var initEvents = () => {
 		highlight(d.key)
 	})
 
-	d3.selectAll(".group path").on("mouseleave", (d, i) => {
-		reset()
-	})
+	d3.selectAll(".group path").on("mouseleave", reset)
 
 	d3.selectAll("#description span").on("mouseenter", () => {
 		highlight(d3.select(d3.event.target).text())
 	})
 
-	d3.selectAll("#description span").on("mouseleave", () => {
-		reset()
-	})
+	d3.selectAll("#description span").on("mouseleave", reset)
 
 	d3.select("body").on("keydown", () => {
-		if("ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(String.fromCharCode(d3.event.which)) !== -1)
+		if ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(String.fromCharCode(d3.event.which)) !== -1)
 			highlight(String.fromCharCode(d3.event.which))
 	})
-
-	// d3.select("body").on("keyup", () => {
-	// 	reset()
-	// })
 }
 
 var transition = (l, color) => {
@@ -234,21 +228,35 @@ var transition = (l, color) => {
 var highlight = (key) => {
 	reset()
 	key = key.toLowerCase()
-	d3.selectAll(".group path").filter((d,i) => {
-			return key === d.key
-		}).style({"stroke-width": 2, "opacity": .6})
-	d3.selectAll(".group path.line1").filter((d,i) => {
-			return key === d.key
-		}).style({"stroke-width": 4, "opacity": 1})
+	d3.selectAll(".group path").filter((d, i) => {
+		return key === d.key
+	}).style({
+		"stroke-width": 2,
+		"opacity": .6
+	})
+	d3.selectAll(".group path.line1").filter((d, i) => {
+		return key === d.key
+	}).style({
+		"stroke-width": 4,
+		"opacity": 1
+	})
 	d3.selectAll("header span").text(key.toUpperCase())
 }
 
 var reset = () => {
-	d3.selectAll(".group path").style({"stroke-width": 1, "opacity": .0})
-	d3.selectAll(".group path.line1").style({"stroke-width": 1, "opacity": .5})
+	d3.selectAll(".group path").style({
+		"stroke-width": 1,
+		"opacity": .0
+	})
+	d3.selectAll(".group path.line1").style({
+		"stroke-width": 1,
+		"opacity": .5
+	})
 	d3.select("header span").text("?")
 }
 
 var color = (g) => {
 	return g === "a" ? "#B61489" : (g === "f" ? "#EE3E47" : "#5B46F6")
 }
+
+document.addEventListener("DOMContentLoaded", init)
