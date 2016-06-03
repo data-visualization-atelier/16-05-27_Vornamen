@@ -113,28 +113,27 @@ d3.select(document).on("DOMContentLoaded", () => {
 		reset()
 		key = key.toLowerCase()
 		svg.selectAll(".group path").filter((d, i) => {
+			console.log(d)
 			return key === d.key
 		}).style({
-			"stroke-width": 4,
+			"stroke-width": 2,
 			"opacity": 1
 		}).each((d, i) => {
-			svg.selectAll(".temp").append("path").attr("class", "line1")
-				.attr("d", () => line("f", d.values))
+			let mode = d3.select("#filter span.selected")[0][0].id
+			let genders = ["a","f","m"]
+			genders.forEach((g) => {
+				svg.selectAll(".temp").append("path").attr("class", "line1")
+				.attr("d", () => line(mode, d.values))
 				.style({
-					stroke: color("f"),
+					stroke: color(g),
 					fill: "none",
-					opacity: .5
-				})
-			svg.selectAll(".temp").append("path").attr("class", "line1")
-				.attr("d", () => line("m", d.values))
-				.style({
-					stroke: color("m"),
-					fill: "none",
-					opacity: .5
-				})
+					opacity: .4,
+					"stroke-width": 2
+				}).transition().duration(200).attr("d", () => line(g, d.values))
+			})
 		})
 
-		svg.selectAll("header span").text(key.toUpperCase())
+		d3.selectAll("header span").text(key.toUpperCase())
 	}
 
 	let reset = () => {
@@ -158,10 +157,10 @@ d3.select(document).on("DOMContentLoaded", () => {
 		svg.selectAll(".group path").on("mouseenter", d => highlight(d.key))
 		svg.selectAll(".group path").on("mouseleave", reset)
 
-		svg.selectAll("#description span").on("mouseenter", () => highlight(svg.select(d3.event.target).text()))
-		svg.selectAll("#description span").on("mouseleave", reset)
+		d3.selectAll("#description span").on("mouseenter", () => highlight(d3.select(d3.event.target).text()))
+		d3.selectAll("#description span").on("mouseleave", reset)
 
-		svg.select("body").on("keydown", () => {
+		d3.select("body").on("keydown", () => {
 			if ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(String.fromCharCode(d3.event.which)) !== -1)
 				highlight(String.fromCharCode(d3.event.which))
 		})
